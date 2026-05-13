@@ -1,0 +1,26 @@
+[Unit]
+Description=Port Forwarder
+After=network-online.target
+Documentation=https://github.com/aellul27/port_forwarder
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/port_forwarder /etc/port_forwarder/config.json
+Restart=on-failure
+RestartSec=5s
+
+DynamicUser=yes
+
+# Grants the specific permission needed to bind to privileged ports (e.g., 22, 80, 443)
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+# Extra hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateDevices=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
